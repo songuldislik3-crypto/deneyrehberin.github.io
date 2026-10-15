@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deney Rehberi – Simülasyon ve Deney Videoları</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f7fa;--grid:#dde7ef;--ink:#10243a;--mut:#566b7e;--card:#fff;--bd:#d3dfe8;--ok:#0f7b4f;--okbg:#e1f5ec;--c:#2f6bff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1a28;--grid:#172b3f;--ink:#e8f0f7;--mut:#93a8bb;--card:#132536;--bd:#26425b;--ok:#6fd7a5;--okbg:#14352a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1a28;--grid:#172b3f;--ink:#e8f0f7;--mut:#93a8bb;--card:#132536;--bd:#26425b;--ok:#6fd7a5;--okbg:#14352a;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px;color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5}
+button{font-family:inherit}
+:focus-visible{outline:3px solid var(--c);outline-offset:2px}
+.w{max-width:940px;margin:0 auto;padding:28px 16px 56px}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:center;margin-bottom:8px}
+h1{font-family:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;font-size:clamp(2.3rem,7vw,3.8rem);line-height:1;letter-spacing:-.025em;font-weight:800;margin:0 0 14px}
+.lead{font-size:1.1rem;max-width:30ch;margin:0 0 10px}
+.stat{color:var(--mut);font-size:.92rem;margin:0}
+.plot{width:100%;height:auto;background:var(--card);border:1px solid var(--bd);border-radius:20px;display:block}
+.tr{fill:none;stroke:var(--c);stroke-width:3.5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.4s .3s ease-out forwards}
+.ball{fill:var(--c);offset-path:path("M30 190 Q185 -40 340 190");offset-rotate:0deg;offset-distance:0%;animation:fly 2.4s .3s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fly{to{offset-distance:100%}}
+@media (prefers-reduced-motion:reduce){.tr{animation:none;stroke-dashoffset:0}.ball{animation:none;offset-distance:50%}}
+.lbl{font-weight:600;font-size:.95rem;margin:22px 0 8px}
+.seg{display:inline-flex;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:4px;gap:4px}
+.seg button{border:0;background:transparent;color:var(--ink);padding:9px 20px;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.tile{display:flex;flex-direction:column;gap:2px;text-align:left;background:var(--card);color:var(--ink);border:1px solid var(--bd);border-top:6px solid var(--c);border-radius:16px;padding:12px 14px;cursor:pointer}
+.tile .em{font-size:1.7rem;line-height:1.2}
+.tile b{font-size:1rem}
+.tile small{color:var(--mut)}
+.tile.on{background:var(--c);border-color:var(--c);color:#fff}
+.tile.on small{color:#fff;opacity:.9}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+button.c{border:1.5px solid var(--bd);background:var(--card);color:var(--ink);padding:7px 14px;border-radius:999px;cursor:pointer;font-size:.93rem}
+button.c:hover{border-color:var(--c)}
+button.c.on{background:var(--c);border-color:var(--c);color:#fff}
+.panel{background:var(--card);border:1px solid var(--bd);border-radius:22px;margin-top:22px;overflow:hidden}
+.ph{padding:22px 22px 18px;background:color-mix(in srgb,var(--c) 14%,var(--card));border-bottom:1px solid var(--bd)}
+.ph h2{font-family:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;font-size:1.9rem;line-height:1.1;letter-spacing:-.02em;margin:8px 0 6px}
+.ph p{margin:0;max-width:60ch}
+.lvb{display:inline-block;background:var(--c);color:#fff;border-radius:8px;padding:2px 10px;font-size:.8rem;font-weight:600}
+.pb{padding:6px 18px 18px}
+.sec{display:flex;align-items:center;gap:8px;font-weight:600;font-size:1.02rem;margin:20px 0 10px}
+.sec em{font-style:normal;font-size:.78rem;background:var(--bg);border:1px solid var(--bd);border-radius:999px;padding:0 9px;color:var(--mut)}
+.r{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--bd);border-left:6px solid var(--c);border-radius:14px;padding:11px 12px;margin-bottom:9px}
+.r.vid{border-left-color:#e5484d}
+.r.ed{border-left-color:#e0a100}
+.r:hover{border-color:var(--c);background:color-mix(in srgb,var(--c) 8%,var(--card))}
+.ri{display:grid;place-items:center;width:44px;height:44px;flex:none;border-radius:12px;font-size:1.35rem;background:color-mix(in srgb,var(--c) 16%,var(--card))}
+.r.vid .ri{background:color-mix(in srgb,#e5484d 16%,var(--card))}
+.r.ed .ri{background:color-mix(in srgb,#e0a100 20%,var(--card))}
+.b{flex:1;min-width:0}
+.b b{display:block;font-size:.98rem}
+.b small{display:block;color:var(--mut);font-size:.84rem}
+.m{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex:none}
+.bg{font-size:.7rem;background:var(--bg);border:1px solid var(--bd);color:var(--mut);border-radius:6px;padding:0 7px;white-space:nowrap}
+.bg.g{background:var(--okbg);border-color:transparent;color:var(--ok)}
+.dm{font-size:.72rem;color:var(--mut)}
+footer{margin-top:26px;color:var(--mut);font-size:.82rem;max-width:70ch}
+@media(max-width:700px){.hero{grid-template-columns:1fr}.lead{max-width:none}}
+@media(max-width:520px){.dm{display:none}.ph h2{font-size:1.5rem}}
+</style>
+</head>
+<body>
+<div class="w" id="app">
+<header class="hero">
+<div>
+<h1>Deney Rehberi</h1>
+<p class="lead">Dersini ve konunu seç. Simülasyonları ve videoları, sitelerin adına bakarak kendin seç.</p>
+<p class="stat" id="stat"></p>
+</div>
+<svg class="plot" viewBox="0 0 360 230" role="img" aria-label="Eğik atış grafiği: top parabolik yol izliyor">
+<defs><pattern id="g" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="var(--grid)" stroke-width="1"/></pattern></defs>
+<rect width="360" height="230" fill="url(#g)"/>
+<path d="M30 20V190H340" fill="none" stroke="var(--mut)" stroke-width="2"/>
+<line x1="185" y1="190" x2="185" y2="75" stroke="var(--mut)" stroke-width="1.5" stroke-dasharray="4 4"/>
+<path class="tr" pathLength="1" d="M30 190 Q185 -40 340 190"/>
+<circle class="ball" r="8" cx="0" cy="0"/>
+<text x="193" y="72" font-size="12" fill="var(--mut)">en yüksek nokta</text>
+<text x="170" y="212" font-size="12" fill="var(--mut)">menzil</text>
+<text x="36" y="34" font-size="12" fill="var(--mut)">yükseklik</text>
+</svg>
+</header>
+<div class="lbl">Seviye</div><div class="seg" id="lv"></div>
+<div class="lbl">Ders</div><div class="tiles" id="cs"></div>
+<div class="lbl">Konu</div><div class="row" id="tp"></div>
+<section class="panel" id="out"></section>
+<footer>Etiketler: <b>Doğrudan</b> = simülasyon veya site sayfası açılır. <b>Arama sonucu</b> = o sitede ya da kanalda konuyla ilgili sonuçlar açılır. Simülasyonlar PhET (Colorado Üniversitesi) başta olmak üzere ilgili sitelerin kendi içerikleridir. PhET'in bazı eski (Java tabanlı) simülasyonları tarayıcıda biraz geç açılabilir. Yeni konu eklemek için <code>TOPICS</code> listesine satır eklemen yeterli.</footer>
+</div>
+<script>
+const Y=q=>"https://www.youtube.com/results?search_query="+encodeURIComponent(q);
+// Simülasyon siteleri: ad, açıklama, dil, adres üretici
+const SIM={
+phet:{n:"PhET Interactive Simulations",d:"Colorado Üniversitesi · Türkçe arayüzlü interaktif simülasyonlar",l:"Türkçe/EN",u:s=>"https://phet.colorado.edu/tr/simulations/"+s,dm:"phet.colorado.edu"},
+fendt:{n:"Walter Fendt Fizik Appletleri",d:"Sade ve hızlı açılan fizik uygulamaları",l:"English",u:s=>"https://www.walter-fendt.de/html5/phen/"+s,dm:"walter-fendt.de"},
+falstad:{n:"Falstad Math & Physics Applets",d:"Devre, dalga ve alan simülasyonları (üniversite düzeyi)",l:"English",u:s=>"https://www.falstad.com/"+s,dm:"falstad.com"},
+pc:{n:"The Physics Classroom – Interactives",d:"Lise fiziği için kısa interaktif etkinlikler",l:"English",u:()=>"https://www.physicsclassroom.com/Physics-Interactives",dm:"physicsclassroom.com"},
+cc:{n:"ChemCollective Sanal Laboratuvarlar",d:"Carnegie Mellon · Çözelti ve tepkime sanal laboratuvarları",l:"English",u:()=>"https://chemcollective.org/vlabs",dm:"chemcollective.org"},
+cn:{n:"Concord Consortium – Interactive Simulations",d:"Moleküler ve fiziksel olaylar için web simülasyonları",l:"English",u:()=>"https://learn.concord.org/",dm:"learn.concord.org"},
+utah:{n:"Learn.Genetics (Utah Üniversitesi)",d:"Genetik ve hücre biyolojisi interaktifleri",l:"English",u:()=>"https://learn.genetics.utah.edu/",dm:"learn.genetics.utah.edu"},
+hhmi:{n:"HHMI BioInteractive",d:"Biyoloji için interaktif etkinlik ve laboratuvarlar",l:"English",u:()=>"https://www.biointeractive.org/classroom-resources",dm:"biointeractive.org"},
+desmos:{n:"Desmos",d:"Ücretsiz çevrimiçi grafik çizici ve geometri aracı",l:"Türkçe/EN",u:s=>"https://www.desmos.com/"+s,dm:"desmos.com"},
+geogebra:{n:"GeoGebra",d:"Dinamik geometri, cebir ve kalkülüs etkinlikleri",l:"Türkçe/EN",u:q=>"https://www.geogebra.org/search/"+encodeURIComponent(q),dm:"geogebra.org"},
+usgs:{n:"USGS Earthquake Map",d:"Dünyadaki son depremleri canlı harita üzerinde gösterir",l:"English",u:()=>"https://earthquake.usgs.gov/earthquakes/map/",dm:"earthquake.usgs.gov"},
+windy:{n:"Windy",d:"Rüzgâr, yağış ve sıcaklığı canlı harita üzerinde izleme",l:"Türkçe/EN",u:()=>"https://www.windy.com/",dm:"windy.com"},
+null:{n:"Earth Nullschool",d:"Küresel rüzgâr ve okyanus akıntıları görselleştirmesi",l:"English",u:()=>"https://earth.nullschool.net/",dm:"earth.nullschool.net"},
+gearth:{n:"Google Earth",d:"Dünyayı 3B keşfet; yer ve bölge incelemeleri",l:"Türkçe/EN",u:()=>"https://earth.google.com/web/",dm:"earth.google.com"},
+seterra:{n:"Seterra",d:"Harita bilgisi için ülke, şehir ve nehir quizleri",l:"Türkçe/EN",u:()=>"https://www.seterra.com/",dm:"seterra.com"},
+gapminder:{n:"Gapminder Tools",d:"Ülkelerin gelir, nüfus ve sağlık verilerini animasyonlu grafikle karşılaştır",l:"Türkçe/EN",u:()=>"https://www.gapminder.org/tools/",dm:"gapminder.org"},
+owid:{n:"Our World in Data",d:"Dünya verileri için grafik ve araştırma arşivi",l:"English",u:q=>"https://ourworldindata.org/search?q="+encodeURIComponent(q),dm:"ourworldindata.org"},
+tuik:{n:"TÜİK Veri Portalı",d:"Türkiye istatistikleri: nüfus, ekonomi, enflasyon",l:"Türkçe",u:()=>"https://data.tuik.gov.tr/",dm:"data.tuik.gov.tr"},
+evds:{n:"TCMB EVDS",d:"Merkez Bankası elektronik veri dağıtım sistemi",l:"Türkçe",u:()=>"https://evds2.tcmb.gov.tr/",dm:"evds2.tcmb.gov.tr"},
+fred:{n:"FRED (St. Louis Fed)",d:"Faiz, enflasyon ve büyüme verileri için interaktif grafikler",l:"English",u:()=>"https://fred.stlouisfed.org/",dm:"fred.stlouisfed.org"},
+geacron:{n:"GeaCron",d:"Yıllara göre değişen tarihî haritalar",l:"English",u:()=>"https://geacron.com/",dm:"geacron.com"},
+ohm:{n:"OpenHistoricalMap",d:"Zaman çubuğuyla tarihî sınırlar ve yerler",l:"English",u:()=>"https://www.openhistoricalmap.org/",dm:"openhistoricalmap.org"},
+arts:{n:"Google Arts & Culture",d:"Müze koleksiyonları, belgeler ve sanal turlar",l:"Türkçe/EN",u:q=>"https://artsandculture.google.com/search?q="+encodeURIComponent(q),dm:"artsandculture.google.com"},
+whe:{n:"World History Encyclopedia",d:"Konu maddeleri, haritalar ve zaman çizelgeleri",l:"English",u:q=>"https://www.worldhistory.org/search/?q="+encodeURIComponent(q),dm:"worldhistory.org"},
+eur:{n:"Europeana",d:"Avrupa arşivlerinden belge, fotoğraf ve harita koleksiyonları",l:"English",u:q=>"https://www.europeana.eu/en/search?query="+encodeURIComponent(q),dm:"europeana.eu"},
+eba:{n:"EBA (Millî Eğitim Bakanlığı)",d:"Ders içerikleri ve video dersler",l:"Türkçe",u:()=>"https://www.eba.gov.tr/",dm:"eba.gov.tr"}
+};
+const SRCH={geogebra:1,owid:1,arts:1,whe:1,eur:1};
+const FEN=["Fizik","Kimya","Biyoloji"];
+const direct={phet:1,fendt:1,falstad:1,pc:1,cc:1,cn:1,utah:1,hhmi:1};
+// Ders bazlı video kanalları (arama sonucu açılır)
+const CH={
+"Fizik":[["MIT OpenCourseWare","Üniversite düzeyi ders ve laboratuvar gösterileri"],["Physics Girl","Görsel ve eğlenceli fizik deneyleri"],["Veritasium","Merak uyandıran deneyler ve açıklamalar"]],
+"Kimya":[["Periodic Videos","Nottingham Üniversitesi · kimya deney videoları"],["Professor Dave Explains","Konu anlatımı ve çözümlü örnekler"],["NileRed","Laboratuvar deneyleri ve sentezler"]],
+"Biyoloji":[["Amoeba Sisters","Lise düzeyi sade ve çizimli anlatım"],["Bozeman Science","Ders anlatımı ve kavram videoları"],["HHMI BioInteractive","Animasyon, film ve laboratuvar videoları"]],
+"Matematik":[["3Blue1Brown","Görsel ve sezgisel matematik anlatımları"],["Khan Academy","Adım adım ders ve çözümlü örnekler"],["Numberphile","Sayılar ve matematiğin ilginç yönleri"]],
+"Coğrafya":[["Geography Now","Ülke ve bölge tanıtımları"],["National Geographic","Belgesel ve doğa videoları"],["TED-Ed","Kısa animasyonlu açıklamalar"]],
+"Tarih":[["Crash Course","Hızlı ve akıcı tarih anlatımları"],["Kings and Generals","Haritalı savaş ve imparatorluk tarihi"],["TED-Ed","Kısa animasyonlu tarih dersleri"]],
+"Ekonomi":[["Marginal Revolution University","Ekonomi kavramlarının üniversite düzeyi anlatımı"],["Crash Course","Hızlı ve akıcı ekonomi anlatımları"],["Khan Academy","Mikro ve makro ekonomi dersleri"]]
+};
+// [seviye, ders, konu, açıklama, simülasyonlar [site,param,alt başlık], Türkçe arama, İngilizce arama]
+const TOPICS=[
+["LU","Fizik","Eğik atış","Atış açısı ve hızın menzile etkisi.",[["phet","projectile-motion","Projectile Motion"],["fendt","projectile_en.htm","Projectile Motion"],["pc"]],"eğik atış deneyi","projectile motion experiment"],
+["LU","Fizik","Hız ve hareket grafikleri","Konum-zaman ve hız-zaman grafikleri.",[["phet","moving-man","The Moving Man"],["pc"]],"hareket grafikleri deney","motion graphs experiment"],
+["LU","Fizik","Newton'un hareket yasaları","Kuvvet, kütle ve ivme ilişkisi.",[["phet","forces-and-motion-basics","Forces and Motion: Basics"],["fendt","newtonlaw2_en.htm","Newton's Second Law Experiment"],["pc"]],"Newton hareket yasaları deneyi","Newton's laws experiment"],
+["LU","Fizik","Enerjinin korunumu","Kinetik ve potansiyel enerji dönüşümü.",[["phet","energy-skate-park-basics","Energy Skate Park: Basics"],["pc"]],"enerjinin korunumu deneyi","conservation of energy experiment"],
+["LU","Fizik","Basit sarkaç","Periyodun uzunluk ve yerçekimiyle ilişkisi.",[["phet","pendulum-lab","Pendulum Lab"],["fendt","pendulum_en.htm","Simple Pendulum"]],"basit sarkaç deneyi","simple pendulum experiment"],
+["LU","Fizik","Yay-kütle sistemi (Hooke)","Yay sabiti ve harmonik hareket.",[["phet","masses-and-springs","Masses & Springs"],["fendt","springpendulum_en.htm","Spring Pendulum"]],"Hooke yasası yay deneyi","Hooke's law spring experiment"],
+["LU","Fizik","Elektrik devreleri ve Ohm yasası","Akım, gerilim ve direnç.",[["phet","circuit-construction-kit-dc","Circuit Construction Kit: DC"],["phet","ohms-law","Ohm's Law"],["fendt","ohmslaw_en.htm","Ohm's Law"],["falstad","circuit/","Circuit Simulator"]],"Ohm yasası devre deneyi","Ohm's law circuit experiment"],
+["LU","Fizik","Dalgalar","Dalga boyu, frekans ve genlik.",[["phet","wave-on-a-string","Wave on a String"],["phet","wave-interference","Wave Interference"],["falstad","ripple/","Ripple Tank"]],"dalga deneyi fizik","wave experiment physics"],
+["LU","Fizik","Mercekler ve ışık","Kırılma, odak uzaklığı, görüntü oluşumu.",[["phet","geometric-optics","Geometric Optics"],["fendt","imageconverginglens_en.htm","Image Formation by Converging Lenses"],["pc"]],"mercek deneyi optik","lens optics experiment"],
+["LU","Fizik","Elektromanyetik indüksiyon","Faraday yasası, manyetik akı.",[["phet","faraday","Faraday's Electromagnetic Lab"],["fendt","generator_en.htm","AC Generator"]],"Faraday indüksiyon deneyi","Faraday induction experiment"],
+["LU","Fizik","Kütle çekimi ve yörüngeler","Gezegen hareketleri ve çekim kuvveti.",[["phet","gravity-and-orbits","Gravity and Orbits"],["fendt","gravity_en.htm","Gravity, Two-Body Problem"],["fendt","keplerlaw1_en.htm","Kepler's First Law"]],"yörünge kütle çekimi simülasyon","gravity orbits demonstration"],
+["LU","Kimya","Gazlar","Basınç, hacim ve sıcaklık ilişkisi.",[["phet","gas-properties","Gas Properties"],["fendt","gasprocesses_en.htm","Special Processes of an Ideal Gas"]],"gaz yasaları deneyi","gas laws experiment"],
+["L","Kimya","Maddenin halleri","Katı, sıvı, gaz geçişleri.",[["phet","states-of-matter","States of Matter"]],"hal değişimi deneyi","states of matter experiment"],
+["L","Kimya","Yoğunluk","Kütle, hacim ve yoğunluk ilişkisi.",[["phet","density","Density"],["pc"]],"yoğunluk deneyi","density experiment"],
+["LU","Kimya","Asit-baz ve pH","pH ölçeği ve çözelti özellikleri.",[["phet","ph-scale","pH Scale"],["phet","acid-base-solutions","Acid-Base Solutions"],["cc"]],"asit baz pH deneyi","acid base pH experiment"],
+["L","Kimya","Atomun yapısı","Proton, nötron ve elektron ile atom kurma.",[["phet","build-an-atom","Build an Atom"],["phet","isotopes-and-atomic-mass","Isotopes and Atomic Mass"]],"atom modeli deney","atomic structure experiment"],
+["L","Kimya","Kimyasal denklem denkleştirme","Tepkime denklemlerini dengeleme.",[["phet","balancing-chemical-equations","Balancing Chemical Equations"],["cc"]],"kimyasal denklem denkleştirme","balancing chemical equations"],
+["LU","Kimya","Molarite ve çözeltiler","Derişim hesapları ve seyreltme.",[["phet","molarity","Molarity"],["cc"]],"molarite çözelti hazırlama deneyi","molarity solution preparation lab"],
+["LU","Biyoloji","Doğal seçilim","Popülasyonlarda uyum ve evrim.",[["phet","natural-selection","Natural Selection"],["utah"],["hhmi"]],"doğal seçilim simülasyon","natural selection activity"],
+["LU","Biyoloji","Gen ifadesi","Transkripsiyon ve translasyon süreçleri.",[["phet","gene-expression-basics","Gene Expression Basics"],["utah"]],"gen ifadesi transkripsiyon translasyon","gene expression transcription translation"],
+["LU","Biyoloji","Nöron ve sinir iletimi","Aksiyon potansiyeli ve uyarı iletimi.",[["phet","neuron","Neuron"],["utah"]],"nöron aksiyon potansiyeli","neuron action potential"],
+["L","Matematik","Doğrusal fonksiyonlar ve grafikler","Eğim, kesişim noktası ve doğru denklemi.",[["phet","graphing-lines","Graphing Lines"],["desmos","calculator","Graphing Calculator"],["geogebra","linear function"]],"doğrusal fonksiyon grafik","linear functions graphing"],
+["L","Matematik","Fonksiyonlar","Girdi-çıktı ilişkisi ve fonksiyon makineleri.",[["phet","function-builder","Function Builder"],["desmos","calculator","Graphing Calculator"],["geogebra","functions"]],"fonksiyonlar konu anlatımı","functions introduction"],
+["L","Matematik","Cebir ve denklemler","Denklem çözme ve cebirsel ifadeler.",[["phet","equality-explorer","Equality Explorer"],["phet","area-model-algebra","Area Model Algebra"],["desmos","calculator","Graphing Calculator"]],"denklem çözme cebir","solving equations algebra"],
+["L","Matematik","Geometri","Şekiller, açılar, çember ve dönüşümler.",[["desmos","geometry","Geometry Tool"],["geogebra","geometry"]],"geometri konu anlatımı","geometry introduction"],
+["L","Matematik","Trigonometri","Birim çember, sinüs ve kosinüs grafikleri.",[["phet","trig-tour","Trig Tour"],["desmos","calculator","Graphing Calculator"],["geogebra","unit circle trigonometry"]],"trigonometri birim çember","trigonometry unit circle"],
+["LU","Matematik","Olasılık","Rastgele olaylar ve dağılımlar.",[["phet","plinko-probability","Plinko Probability"],["geogebra","probability"]],"olasılık deneyi","probability experiment"],
+["LU","Matematik","Vektörler","Vektör toplama ve bileşenler.",[["phet","vector-addition","Vector Addition"],["geogebra","vectors"]],"vektörler konu anlatımı","vectors introduction"],
+["LU","Matematik","İstatistik ve regresyon","Veri noktalarına doğru uydurma.",[["phet","least-squares-regression","Least-Squares Regression"],["geogebra","statistics regression"]],"istatistik regresyon","statistics regression"],
+["LU","Matematik","Limit ve türev","Türev kavramı ve grafikleri.",[["phet","calculus-grapher","Calculus Grapher"],["desmos","calculator","Graphing Calculator"],["geogebra","derivative calculus"]],"limit ve türev","derivative calculus"],
+["U","Matematik","Fourier serileri","Dalgaları sinüslerin toplamı olarak görme.",[["phet","fourier-making-waves","Fourier: Making Waves"],["falstad","fourier/","Fourier Series Applet"],["desmos","calculator","Graphing Calculator"]],"Fourier serileri","Fourier series"],
+["LU","Coğrafya","Depremler ve levha tektoniği","Fay hatları ve deprem dağılımı.",[["phet","plate-tectonics","Plate Tectonics"],["usgs"],["gearth"]],"deprem levha tektoniği","plate tectonics earthquakes"],
+["LU","Coğrafya","İklim ve sera etkisi","Sera gazları ve küresel ısınma.",[["phet","greenhouse-effect","Greenhouse Effect"],["owid","climate change"],["null"]],"sera etkisi iklim değişikliği","greenhouse effect climate change"],
+["L","Coğrafya","Hava olayları ve rüzgâr","Rüzgâr, basınç ve yağışı canlı izleme.",[["windy"],["null"]],"hava olayları rüzgâr","weather wind explained"],
+["L","Coğrafya","Harita okuma","Ülkeler, şehirler ve yer şekilleri.",[["gearth"],["seterra"]],"harita okuma coğrafya","map reading geography"],
+["LU","Coğrafya","Nüfus ve kalkınma","Ülkeleri gelir, nüfus ve sağlık verileriyle karşılaştırma.",[["gapminder"],["owid","population"],["tuik"]],"dünya nüfusu ve kalkınma","world population development"],
+["L","Tarih","Osmanlı Devleti","Kuruluştan yıkılışa Osmanlı tarihi.",[["eba"],["geacron"],["arts","Ottoman Empire"]],"Osmanlı Devleti tarihi belgesel","Ottoman Empire history"],
+["L","Tarih","Kurtuluş Savaşı ve Cumhuriyet","Millî Mücadele ve Cumhuriyet'in kuruluşu.",[["eba"],["arts","Atatürk"],["geacron"]],"Kurtuluş Savaşı belgesel","Turkish War of Independence history"],
+["LU","Tarih","Tarihî haritalar ve imparatorluklar","Sınırların zaman içindeki değişimi.",[["geacron"],["ohm"],["whe","empires maps"]],"imparatorluklar tarih haritası","empires history map"],
+["LU","Tarih","Müze koleksiyonları ve belgeler","Eserler, fotoğraflar ve arşiv belgeleri.",[["arts","history"],["eur","history"],["whe","history"]],"müze koleksiyonları tarih","museum collections history"],
+["LU","Ekonomi","Arz ve talep","Fiyatın piyasada nasıl oluştuğu.",[["desmos","calculator","Graphing Calculator"],["geogebra","supply and demand"]],"arz ve talep ekonomi","supply and demand"],
+["LU","Ekonomi","Enflasyon ve faiz","Fiyat artışı, faiz ve merkez bankası.",[["evds"],["tuik"],["fred"]],"enflasyon ve faiz nedir","inflation and interest rates"],
+["LU","Ekonomi","Kalkınma ve gelir dağılımı","Ülkeler arası gelir farkları.",[["gapminder"],["owid","income inequality"],["tuik"]],"gelir dağılımı ekonomi","income inequality development"],
+["LU","Fizik","Statik elektrik ve elektrik alanı","Yük, kuvvet ve elektrik alanı.",[["phet","balloons-and-static-electricity","Balloons and Static Electricity"],["phet","charges-and-fields","Charges and Fields"]],"statik elektrik deneyi","static electricity experiment"],
+["L","Fizik","Manyetizma ve elektromıknatıslar","Mıknatıslar ve akımın oluşturduğu manyetik alan.",[["phet","magnets-and-electromagnets","Magnets and Electromagnets"],["phet","magnet-and-compass","Magnet and Compass"],["fendt","magneticfieldbar_en.htm","Magnetic Field of a Bar Magnet"]],"mıknatıs manyetik alan deneyi","magnetism electromagnet experiment"],
+["LU","Fizik","Momentum ve çarpışmalar","İtme, momentum korunumu, esnek ve esnek olmayan çarpışmalar.",[["phet","collision-lab","Collision Lab"],["fendt","collision_en.htm","Elastic and Inelastic Collision"],["pc"]],"momentum çarpışma deneyi","momentum collision experiment"],
+["L","Fizik","Denge ve tork","Moment, kaldıraç ve denge koşulları.",[["phet","balancing-act","Balancing Act"],["phet","torque","Torque"],["fendt","lever_en.htm","Lever Principle"]],"tork denge deneyi","torque balance experiment"],
+["L","Fizik","Isı ve sıcaklık","Isı aktarımı ve enerji biçimleri.",[["phet","energy-forms-and-changes","Energy Forms and Changes"]],"ısı aktarımı deneyi","heat transfer experiment"],
+["L","Fizik","Basınç ve akışkanlar","Sıvı basıncı, kaldırma kuvveti ve akış.",[["phet","fluid-pressure-and-flow","Fluid Pressure and Flow"],["phet","buoyancy","Buoyancy"],["fendt","buoyantforce_en.htm","Buoyant Force in Liquids"]],"sıvı basıncı kaldırma kuvveti deneyi","fluid pressure buoyancy experiment"],
+["LU","Fizik","Işığın kırılması","Snell yasası ve tam yansıma.",[["phet","bending-light","Bending Light"],["fendt","refraction_en.htm","Refraction of Light"],["pc"]],"ışığın kırılması deneyi","refraction Snell's law experiment"],
+["LU","Fizik","Fotoelektrik olay","Işığın metalden elektron koparması.",[["phet","photoelectric","Photoelectric Effect"],["fendt","photoeffect_en.htm","Photoelectric Effect"]],"fotoelektrik olay deneyi","photoelectric effect experiment"],
+["L","Fizik","Radyoaktivite ve nükleer fizik","Bozunma, yarı ömür ve fisyon.",[["phet","radioactive-dating-game","Radioactive Dating Game"],["phet","nuclear-fission","Nuclear Fission"],["phet","beta-decay","Beta Decay"],["fendt","lawdecay_en.htm","Law of Radioactive Decay"]],"radyoaktivite yarı ömür deney","radioactive decay half-life"],
+["U","Fizik","Çift yarık girişimi ve dalga-parçacık ikiliği","Kuantum parçacıklarının girişimi.",[["phet","quantum-wave-interference","Quantum Wave Interference"],["phet","wave-interference","Wave Interference"],["fendt","doubleslit_en.htm","Interference of Light at a Double Slit"]],"çift yarık deneyi","double slit experiment"],
+["U","Fizik","Hidrojen atomu ve kuantum modeller","Bohr modeli ve dalga fonksiyonları.",[["phet","models-of-the-hydrogen-atom","Models of the Hydrogen Atom"],["phet","quantum-bound-states","Quantum Bound States"],["fendt","bohrmodel_en.htm","Bohr's Theory of the Hydrogen Atom"]],"Bohr atom modeli hidrojen","hydrogen atom Bohr model quantum"],
+["U","Fizik","Kuantum tünelleme","Potansiyel engeli ve dalga paketleri.",[["phet","quantum-tunneling","Quantum Tunneling and Wave Packets"]],"kuantum tünelleme","quantum tunneling"],
+["U","Fizik","Kara cisim ışıması","Planck yasası ve sıcaklık-spektrum ilişkisi.",[["phet","blackbody-spectrum","Blackbody Spectrum"],["phet","greenhouse-effect","Greenhouse Effect"]],"kara cisim ışıması","blackbody radiation"],
+["U","Fizik","Termodinamik ve ideal gazlar","Gaz yasaları ve enerji aktarımı.",[["phet","gas-properties","Gas Properties"],["phet","energy-forms-and-changes","Energy Forms and Changes"],["fendt","gasprocesses_en.htm","Special Processes of an Ideal Gas"],["fendt","carnotcycle_en.htm","Carnot Cycle"]],"termodinamik deney","thermodynamics experiment ideal gas"],
+["LU","Kimya","Tepkime hızı ve kimyasal denge","Dengeye ulaşma ve Le Chatelier ilkesi.",[["phet","reversible-reactions","Reversible Reactions"],["cc"]],"kimyasal denge deneyi","chemical equilibrium experiment"],
+["L","Kimya","Sınırlayıcı bileşen","Ürün miktarı ve artan madde.",[["phet","reactants-products-and-leftovers","Reactants, Products and Leftovers"],["cc"]],"sınırlayıcı bileşen tepkime","limiting reactant"],
+["L","Kimya","Çözünme ve çözeltiler","Tuz ve şeker çözünmesi, iletkenlik.",[["phet","sugar-and-salt-solutions","Sugar and Salt Solutions"],["phet","soluble-salts","Soluble Salts"]],"çözünme çözelti deneyi","dissolving solutions experiment"],
+["LU","Kimya","Molekül geometrisi ve polarite","VSEPR, bağ ve molekül polaritesi.",[["phet","molecule-shapes","Molecule Shapes"],["phet","molecule-polarity","Molecule Polarity"]],"molekül geometrisi polarite","molecular geometry polarity"],
+["L","Kimya","Atom modelleri (Rutherford saçılması)","Atom modellerinin gelişimi.",[["phet","rutherford-scattering","Rutherford Scattering"],["fendt","rutherfordscattering_en.htm","Rutherford Scattering"],["phet","models-of-the-hydrogen-atom","Models of the Hydrogen Atom"]],"Rutherford atom modeli deneyi","Rutherford scattering experiment"],
+["LU","Kimya","Titrasyon ve analitik kimya","Derişim tayini ve indikatörler.",[["cc"],["phet","acid-base-solutions","Acid-Base Solutions"]],"titrasyon deneyi","titration experiment"],
+["LU","Biyoloji","Hücre yapısı ve organeller","Hücre zarı, organeller ve işlevleri.",[["utah"],["hhmi"]],"hücre organeller","cell structure organelles"],
+["L","Biyoloji","Fotosentez ve hücresel solunum","Hücrede enerji dönüşümü.",[["hhmi"]],"fotosentez hücresel solunum","photosynthesis cellular respiration"],
+["L","Biyoloji","Mitoz ve mayoz","Hücre bölünmesi.",[["utah"],["hhmi"]],"mitoz mayoz","mitosis meiosis"],
+["LU","Biyoloji","Mendel genetiği ve kalıtım","Çaprazlama ve kalıtım örüntüleri.",[["utah"],["hhmi"]],"Mendel genetik çaprazlama","Mendelian genetics inheritance"],
+["U","Biyoloji","Lac operonu","Prokaryotlarda gen düzenlenmesi.",[["phet","gene-machine-lac-operon","Gene Machine: The Lac Operon"],["utah"]],"lac operon","lac operon gene regulation"],
+["L","Matematik","İkinci dereceden fonksiyonlar","Parabol, tepe noktası ve kökler.",[["phet","graphing-quadratics","Graphing Quadratics"],["desmos","calculator","Graphing Calculator"],["geogebra","quadratic function"]],"ikinci dereceden fonksiyon parabol","quadratic functions parabola"],
+["L","Matematik","Üstel ve logaritmik fonksiyonlar","Büyüme, bozunma ve logaritma.",[["desmos","calculator","Graphing Calculator"],["geogebra","exponential logarithm"]],"üstel logaritmik fonksiyon","exponential logarithm functions"],
+["L","Matematik","Permütasyon ve kombinasyon","Sayma yöntemleri.",[["geogebra","combinatorics permutations"],["desmos","calculator","Graphing Calculator"]],"permütasyon kombinasyon","permutations combinations"],
+["LU","Matematik","Diziler ve seriler","Aritmetik ve geometrik diziler, yakınsama.",[["desmos","calculator","Graphing Calculator"],["geogebra","sequences series"]],"diziler ve seriler","sequences and series"],
+["LU","Matematik","Karmaşık sayılar","Karmaşık düzlem ve kutupsal gösterim.",[["geogebra","complex numbers"],["desmos","calculator","Graphing Calculator"]],"karmaşık sayılar","complex numbers"],
+["LU","Matematik","İntegral ve alan","Riemann toplamı ve eğri altında kalan alan.",[["phet","calculus-grapher","Calculus Grapher"],["geogebra","integral Riemann sum"],["desmos","calculator","Graphing Calculator"]],"integral alan hesabı","integral area Riemann sum"],
+["U","Matematik","Matrisler ve lineer cebir","Matris işlemleri ve doğrusal dönüşümler.",[["geogebra","linear algebra matrix"],["desmos","calculator","Graphing Calculator"]],"lineer cebir matrisler","linear algebra matrices"],
+["U","Matematik","Diferansiyel denklemler","Yön alanları ve çözüm eğrileri.",[["geogebra","differential equations slope field"],["desmos","calculator","Graphing Calculator"]],"diferansiyel denklemler","differential equations"],
+["L","Coğrafya","Türkiye'nin coğrafyası","Yer şekilleri, iklim ve nüfus.",[["eba"],["gearth"],["tuik"]],"Türkiye coğrafyası belgesel","Turkey geography"],
+["LU","Coğrafya","Yer şekilleri ve jeomorfoloji","Dağlar, vadiler, akarsu ve buzul şekilleri.",[["gearth"],["phet","glaciers","Glaciers"]],"yer şekilleri jeomorfoloji","landforms geomorphology"],
+["LU","Coğrafya","Şehirleşme ve göç","Kentleşme ve nüfus hareketleri.",[["gapminder"],["owid","urbanization migration"],["tuik"]],"şehirleşme ve göç","urbanization migration"],
+["LU","Coğrafya","Enerji kaynakları ve sürdürülebilirlik","Yenilenebilir enerji ve karbon salımı.",[["owid","energy"],["gapminder"],["phet","greenhouse-effect","Greenhouse Effect"]],"yenilenebilir enerji kaynakları","renewable energy sustainability"],
+["L","Tarih","İlk Çağ medeniyetleri","Mezopotamya, Mısır ve Anadolu uygarlıkları.",[["whe","ancient civilizations"],["arts","ancient civilizations"],["geacron"]],"ilk çağ medeniyetleri belgesel","ancient civilizations history"],
+["L","Tarih","Türk-İslam devletleri ve Selçuklular","Karahanlılar, Gazneliler, Büyük Selçuklu ve Anadolu Selçuklu.",[["eba"],["geacron"],["whe","Seljuk Empire"]],"Selçuklu Devleti tarihi belgesel","Seljuk Empire history"],
+["LU","Tarih","Fransız İhtilali ve Sanayi Devrimi","Siyasî ve ekonomik dönüşümler.",[["whe","French Revolution Industrial Revolution"],["eur","French Revolution"],["arts","Industrial Revolution"]],"Fransız İhtilali Sanayi Devrimi","French Revolution Industrial Revolution"],
+["LU","Tarih","Dünya Savaşları","I. ve II. Dünya Savaşı, sebepler ve sonuçlar.",[["whe","World War"],["eur","World War I"],["geacron"]],"Dünya Savaşları belgesel","World War I World War II history"],
+["U","Tarih","Soğuk Savaş","İki kutuplu dünya düzeni.",[["whe","Cold War"],["eur","Cold War"],["arts","Cold War"]],"Soğuk Savaş tarihi","Cold War history"],
+["L","Tarih","Atatürk ilke ve inkılapları","Cumhuriyet dönemi reformları.",[["eba"],["arts","Atatürk reforms"]],"Atatürk ilke ve inkılapları","Atatürk reforms Turkey history"],
+["LU","Ekonomi","Para ve bankacılık","Para arzı, bankalar ve merkez bankası.",[["evds"],["fred"],["tuik"]],"para ve bankacılık","money and banking"],
+["U","Ekonomi","GSYH ve ekonomik büyüme","Ulusal gelir ve büyümenin ölçülmesi.",[["gapminder"],["owid","GDP growth"],["fred"]],"GSYH ve büyüme","GDP economic growth"],
+["LU","Ekonomi","İşsizlik","İşsizlik türleri ve ölçümü.",[["tuik"],["fred"],["owid","unemployment"]],"işsizlik nedir","unemployment explained"],
+["U","Ekonomi","Uluslararası ticaret ve döviz kuru","Dış ticaret, ödemeler dengesi ve kur.",[["evds"],["fred"],["owid","international trade"]],"uluslararası ticaret döviz kuru","international trade exchange rates"]
+];
+const st={lv:"L",cs:"Fizik",tp:null};
+const COL={"Fizik":"#2f6bff","Kimya":"#7c3aed","Biyoloji":"#15803d","Matematik":"#d9560b","Coğrafya":"#0e7490","Tarih":"#a16207","Ekonomi":"#be185d"};
+const EMO={"Fizik":"⚛️","Kimya":"🧪","Biyoloji":"🧬","Matematik":"📐","Coğrafya":"🌍","Tarih":"🏛️","Ekonomi":"📈"};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $=id=>document.getElementById(id);
+function row(kind,ic,name,sub,lang,mode,dm,url){
+  return `<a class="r ${kind}" href="${esc(url)}" target="_blank" rel="noopener"><span class="ri">${ic}</span><span class="b"><b>${esc(name)}</b><small>${esc(sub)}</small></span><span class="m"><span class="bg">${lang}</span><span class="bg ${mode==="Doğrudan"?"g":""}">${mode}</span><span class="dm">${esc(dm)}</span></span></a>`;
+}
+function render(){
+  const lvOK=d=>d[0].includes(st.lv);
+  const all=[...new Set(TOPICS.map(d=>d[1]))];
+  const avail=all.filter(c=>TOPICS.some(d=>lvOK(d)&&d[1]===c));
+  if(!avail.includes(st.cs))st.cs=avail[0];
+  const list=TOPICS.filter(d=>lvOK(d)&&d[1]===st.cs);
+  if(!list.find(d=>d[2]===st.tp))st.tp=list[0][2];
+  $("app").style.setProperty("--c",COL[st.cs]);
+  const tot=TOPICS.reduce((n,d)=>n+d[4].length+CH[d[1]].length+3,0);
+  $("stat").textContent=`${all.length} ders, ${TOPICS.length} konu, ${tot} kaynak seçeneği`;
+  $("lv").innerHTML=["L","U"].map(v=>`<button class="${st.lv===v?"on":""}" data-k="lv" data-v="${v}">${v==="L"?"Lise":"Üniversite"}</button>`).join("");
+  $("cs").innerHTML=avail.map(c=>`<button class="tile ${c===st.cs?"on":""}" style="--c:${COL[c]}" data-k="cs" data-v="${c}"><span class="em">${EMO[c]}</span><b>${c}</b><small>${TOPICS.filter(d=>lvOK(d)&&d[1]===c).length} konu</small></button>`).join("");
+  $("tp").innerHTML=list.map(d=>`<button class="c ${d[2]===st.tp?"on":""}" data-k="tp" data-v="${esc(d[2])}">${esc(d[2])}</button>`).join("");
+  const t=list.find(d=>d[2]===st.tp);
+  const sims=t[4].map(([k,p,alt])=>{const s=SIM[k];return row("sim","🎛️",s.n,(alt?alt+" — ":"")+s.d,s.l,SRCH[k]?"Arama sonucu":"Doğrudan",s.dm,s.u(p))}).join("");
+  const tr=row("vid","🎬","YouTube – Türkçe videolar","Türkçe anlatımlı videolar için arama sonuçları","Türkçe","Arama sonucu","youtube.com",Y(t[5]))
+    +row("ed","🎓","Khan Academy Türkçe","Konuyla ilgili Türkçe ders ve alıştırmalar","Türkçe","Arama sonucu","tr.khanacademy.org","https://tr.khanacademy.org/search?page_search_query="+encodeURIComponent(t[2]))
+    +row("ed","🎓","MIT OpenCourseWare","Üniversite düzeyi ders notu ve video arşivi","English","Arama sonucu","ocw.mit.edu","https://ocw.mit.edu/search/?q="+encodeURIComponent(t[6]));
+  const ch=CH[t[1]].map(([n,d])=>row("vid","🎬",n+" (YouTube)",d,"English","Arama sonucu","youtube.com",Y(n+" "+t[6]))).join("");
+  const lvt=t[0]==="LU"?"Lise ve Üniversite":t[0]==="L"?"Lise":"Üniversite";
+  const vt=FEN.includes(t[1])?"Deney ve anlatım videoları":"Anlatım ve belgesel videoları";
+  $("out").innerHTML=`<div class="ph"><span class="lvb">${lvt}</span><h2>${esc(t[2])}</h2><p>${esc(t[3])}</p></div><div class="pb"><div class="sec">Simülasyonlar <em>${t[4].length}</em></div>${sims}<div class="sec">Türkçe kaynaklar <em>3</em></div>${tr}<div class="sec">${vt} (İngilizce kanallar) <em>${CH[t[1]].length}</em></div>${ch}</div>`;
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-k]");if(!b)return;st[b.dataset.k]=b.dataset.v;if(b.dataset.k==="cs")st.tp=null;render()});
+render();
+</script>
+</body>
+</html>
